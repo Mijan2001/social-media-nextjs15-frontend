@@ -3,7 +3,7 @@ import { Loader } from 'lucide-react';
 import React from 'react';
 
 interface Props extends ButtonProps {
-    isLoading: boolean;
+    isLoading?: boolean;
     children: React.ReactNode;
 }
 

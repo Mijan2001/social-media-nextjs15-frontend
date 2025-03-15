@@ -1,4 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import authSlice from './authSlice';
+import postSlice from './postSlice';
+import storage from 'redux-persist/lib/storage';
 import {
     FLUSH,
     PAUSE,
@@ -10,29 +13,41 @@ import {
     persistStore
 } from 'redux-persist';
 
-import authSlice from './authSlice';
-import storage from 'redux-persist/lib/storage';
-
+// ✅ Define Persist Config
 const persistConfig = {
     key: 'root',
     version: 1,
     storage
 };
 
+// ✅ Combine Reducers
 const rootReducer = combineReducers({
-    auth: authSlice
+    auth: authSlice,
+    posts: postSlice
 });
 
+// ✅ Apply Persist Reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+// ✅ Configure Store with Correct Middleware
 export const store = configureStore({
     reducer: persistedReducer,
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+            serializableCheck: {
+                ignoredActions: [
+                    FLUSH,
+                    REHYDRATE,
+                    PAUSE,
+                    PERSIST,
+                    PURGE,
+                    REGISTER
+                ]
+            }
         })
 });
 
+// ✅ Persistor for Redux Persist
 export const persistor = persistStore(store);
 
 // ✅ Export RootState & AppDispatch types

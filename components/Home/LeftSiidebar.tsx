@@ -21,12 +21,14 @@ import axios from 'axios';
 import { BASE_API_URL } from '@/server';
 import { setAuthUser } from '@/store/authSlice';
 import { toast } from 'sonner';
+import CreatePostModel from './CreatePostModel';
 
 const LeftSidebar = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const handleLogout = async () => {
         await axios.post(`${BASE_API_URL}/users/logout`, null, {
@@ -45,46 +47,50 @@ const LeftSidebar = () => {
             router.push('/');
         } else if (label === 'Profile') {
             router.push(`/profile/${user?._id}`);
+        } else if (label === 'Create') {
+            setIsDialogOpen(true);
         }
     };
 
     const user = useSelector((state: RootState) => state.auth.user);
-    console.log('use : ', user?.username.slice(0, 1).toUpperCase());
 
     const sidebarLinks = [
         { label: 'Home', icon: <FaHome />, link: '/' },
         { label: 'Search', icon: <FaSearch />, link: '/search' },
         { label: 'Messages', icon: <FaEnvelope />, link: '/messages' },
         { label: 'Notifications', icon: <FaBell />, link: '/notifications' },
-        {
-            label: 'Create',
-            icon: <FaPlus />,
-            link: '/create'
-        },
+        { label: 'Create', icon: <FaPlus />, link: '#' },
         {
             label: 'Profile',
             icon: (
-                <Avatar className="w-9 rounded-full h-9">
+                <Avatar className="w-9 h-9 rounded-full">
                     <AvatarImage
                         src={user?.profilePicture}
-                        alt="Create"
+                        alt="Profile"
                         className="w-full h-full"
                     />
                     <AvatarFallback>
-                        {user?.username.slice(0, 1).toUpperCase()}
+                        {user?.username?.charAt(0).toUpperCase()}
                     </AvatarFallback>
                 </Avatar>
             ),
-            link: '/profile'
+            link: `/profile/${user?._id}`
         },
-        { label: 'Logout', icon: <FaSignOutAlt />, link: '/logout' }
+        { label: 'Logout', icon: <FaSignOutAlt />, link: '#' }
     ];
 
     return (
-        <aside className="w-[20%] bg-white shadow-lg md:block hidden  h-screen p-6">
+        <aside className="w-64 bg-white shadow-lg md:flex flex-col h-full p-6 hidden">
+            <CreatePostModel
+                isOpen={isDialogOpen}
+                onClose={() => setIsDialogOpen(false)}
+            />
+
             {/* Sidebar Header */}
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">Dashboard</h2>
+                <h2 className="text-2xl font-semibold text-gray-800">
+                    Dashboard
+                </h2>
                 <button
                     className="lg:hidden text-gray-800"
                     onClick={() => setIsOpen(!isOpen)}
@@ -94,19 +100,19 @@ const LeftSidebar = () => {
             </div>
 
             {/* Sidebar Links */}
-            <ul className="space-y-4">
+            <ul className="space-y-3">
                 {sidebarLinks.map((link, index) => (
                     <li key={index}>
                         <button
                             onClick={() => handleSidebar(link.label)}
-                            className={`flex items-center space-x-4 px-4 py-1 rounded-lg transition-all cursor-pointer 
-                    ${
-                        pathname === link.link
-                            ? 'bg-blue-500 text-white shadow-md'
-                            : 'text-gray-600 hover:bg-gray-100 hover:text-blue-500'
-                    }`}
+                            className={`flex items-center gap-4 w-full px-2 py-3 rounded-lg transition-all 
+                                ${
+                                    pathname === link.link
+                                        ? 'bg-gray-300 text-white shadow-md'
+                                        : 'text-gray-700 hover:bg-gray-100 hover:text-blue-500'
+                                }`}
                         >
-                            <span className="text-lg">{link.icon}</span>
+                            <span className="text-xl">{link.icon}</span>
                             <span className="font-medium">{link.label}</span>
                         </button>
                     </li>
