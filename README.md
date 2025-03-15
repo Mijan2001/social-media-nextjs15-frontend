@@ -1,6 +1,10 @@
-# Next.js 15 Social Media App
+# Social Media App
 
 A **full-stack social media application** built with **Next.js 15** and **TypeScript**, featuring user authentication, post interactions, and more.
+
+![Project Screenshot](./project-images/1.frontpage.png)
+![Project Screenshot](./project-images/2.prfile.png)
+![Project Screenshot](./project-images/3.edit.png)
 
 ## 🚀 Features
 
