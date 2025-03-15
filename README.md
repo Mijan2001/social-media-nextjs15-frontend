@@ -46,23 +46,6 @@ A **full-stack social media application** built with **Next.js 15** and **TypeSc
 
 ---
 
-### 3️⃣ Configure Environment Variables
-
-Create a **`.env.local`** file and add:
-
-```env
-NEXT_PUBLIC_API_URL=<your_backend_url>
-MONGODB_URI=<your_mongodb_connection_string>
-NEXTAUTH_SECRET=<your_nextauth_secret>
-CLOUDINARY_URL=<your_cloudinary_url>
-```
-
-### 4️⃣ Start Development Server
-
-```bash
-npm run dev  # or yarn dev
-```
-
 ## 🔥 API Endpoints
 
 ### Auth Routes
@@ -111,30 +94,3 @@ npm run dev  # or yarn dev
 5. Open a Pull Request
 
 ---
-
-## ⚡ Deployment
-
-Deploy your **Next.js 15** app on **Vercel**:
-
-```bash
-vercel
-```
-
-Or deploy manually with **Docker**:
-
-```bash
-docker build -t social-media-app .
-docker run -p 3000:3000 social-media-app
-```
-
----
-
-## 📜 License
-
-This project is **MIT Licensed**. Feel free to use and modify it as needed.
-
----
-
-## 🌟 Contact
-
-For any issues, reach out to [your-email@example.com](mailto:your-email@example.com) or create an issue in the repository.
